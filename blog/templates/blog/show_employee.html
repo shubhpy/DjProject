@@ -1,0 +1,7 @@
+{% extends 'blog/base.html' %}  
+
+{% block content %}
+    {% for e in emp %}
+        <p>{{ e.name }}    {{ e.job_title }}    {{ e.base_pay }}</p>
+    {% endfor %}
+{% endblock %}
