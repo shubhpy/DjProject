@@ -12,6 +12,13 @@ from graphos.renderers import gchart, yui, flot, morris, highcharts, c3js, matpl
 from graphos.sources.simple import SimpleDataSource
 from graphos.sources.model import ModelDataSource
 
+from django.contrib.auth.models import User, Group
+from rest_framework import viewsets
+from .serializers import UserSerializer, GroupSerializer,PostSerializer
+from .models import University, Student
+from .serializers import UniversitySerializer, StudentSerializer
+
+
 # Create your views here.
 def post_list(request):
 	posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
@@ -69,3 +76,38 @@ def show_employee(request):
     bar_chart = morris.BarChart(simple_data_source)
     
     return render(request,'blog/show_employee.html',{'donut_chart':donut_chart,'bar_chart':bar_chart})
+
+# ViewSets define the view behavior.
+# class UserViewSet(viewsets.ModelViewSet):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
+class PostViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+class StudentViewSet(viewsets.ModelViewSet):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+class UniversityViewSet(viewsets.ModelViewSet):
+    queryset = University.objects.all()
+    serializer_class = UniversitySerializer
